@@ -1,6 +1,9 @@
 package braess.constantin.wgterminal;
 
 import android.graphics.Color;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -165,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
                     int priority = sn.child("priority").getValue(Integer.class);
                     String turnString = sn.child("turn").getValue(String.class);
 
+                    assert turnString != null;
                     switch (turnString) {
                         case "CONSTANTIN":
                             constantinChore.add(new Chore(name, Roommate.CONSTANTIN, priority));
@@ -269,11 +273,13 @@ public class MainActivity extends AppCompatActivity {
         //if (choreList.size() != 0) {
             final ArrayAdapter<String> arrayAdapter1 = new ArrayAdapter<String>
                     (this, android.R.layout.simple_list_item_1, getNameList(choreList)) {
+                @NonNull
+                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
-                public View getView(int position, View convertView, ViewGroup parent) {
+                public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                     // Get the current item from ListView
                     TextView view = (TextView) super.getView(position, convertView, parent);
-                    TextView textView = (TextView) view.findViewById(android.R.id.text1);
+                    TextView textView = view.findViewById(android.R.id.text1);
                     textView.setTextColor(Color.BLACK);
                     view.setBackground(getContext().getDrawable(R.drawable.listview_item_border));
                     if (choreList.size() != 0) {
@@ -302,6 +308,7 @@ public class MainActivity extends AppCompatActivity {
         for (DataSnapshot snap : dataSnapshotMain.getChildren()) {
                 if (snap.exists()) {
                     String name = snap.child("name").getValue(String.class);
+                    assert name != null;
                     if (name.equals(id)) {
                         return snap;
                     }
