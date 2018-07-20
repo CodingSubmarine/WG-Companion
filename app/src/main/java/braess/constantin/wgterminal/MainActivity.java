@@ -69,18 +69,22 @@ public class MainActivity extends AppCompatActivity {
 
         self = getValue();
 
-        if (self.equals("Jan")) {
-            janTextHeader.setBackgroundResource(R.color.selectedHeader);
-            marcTextHeader.setBackgroundResource(R.color.colorAccent);
-            constantinTextHeader.setBackgroundResource(R.color.colorAccent);
-        } else if (self.equals("Marc")) {
-            janTextHeader.setBackgroundResource(R.color.colorAccent);
-            marcTextHeader.setBackgroundResource(R.color.selectedHeader);
-            constantinTextHeader.setBackgroundResource(R.color.colorAccent);
-        } else if (self.equals("Constantin")) {
-            janTextHeader.setBackgroundResource(R.color.colorAccent);
-            marcTextHeader.setBackgroundResource(R.color.colorAccent);
-            constantinTextHeader.setBackgroundResource(R.color.selectedHeader);
+        switch (self) {
+            case "Jan":
+                janTextHeader.setBackgroundResource(R.color.selectedHeader);
+                marcTextHeader.setBackgroundResource(R.color.colorAccent);
+                constantinTextHeader.setBackgroundResource(R.color.colorAccent);
+                break;
+            case "Marc":
+                janTextHeader.setBackgroundResource(R.color.colorAccent);
+                marcTextHeader.setBackgroundResource(R.color.selectedHeader);
+                constantinTextHeader.setBackgroundResource(R.color.colorAccent);
+                break;
+            case "Constantin":
+                janTextHeader.setBackgroundResource(R.color.colorAccent);
+                marcTextHeader.setBackgroundResource(R.color.colorAccent);
+                constantinTextHeader.setBackgroundResource(R.color.selectedHeader);
+                break;
         }
         // Create an ArrayAdapter from List
         viewAllLists();
@@ -431,7 +435,8 @@ public class MainActivity extends AppCompatActivity {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("WG-Erinnerung")
-                .setContentText(text);
+                .setContentText(text)
+                .setOngoing(true);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = getString(R.string.channel_name);
