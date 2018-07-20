@@ -2,6 +2,7 @@ package braess.constantin.wgterminal;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private DataSnapshot dataSnapshotMain;
-    private ListView listView1,listView2,listView3;
+    private ListView listView1, listView2, listView3;
 
     private TextView janTextHeader, marcTextHeader, constantinTextHeader;
 
@@ -66,12 +67,23 @@ public class MainActivity extends AppCompatActivity {
 
         refreshChoreList();
 
+        self = getValue();
 
+        if (self.equals("Jan")) {
+            janTextHeader.setBackgroundResource(R.color.selectedHeader);
+            marcTextHeader.setBackgroundResource(R.color.colorAccent);
+            constantinTextHeader.setBackgroundResource(R.color.colorAccent);
+        } else if (self.equals("Marc")) {
+            janTextHeader.setBackgroundResource(R.color.colorAccent);
+            marcTextHeader.setBackgroundResource(R.color.selectedHeader);
+            constantinTextHeader.setBackgroundResource(R.color.colorAccent);
+        } else if (self.equals("Constantin")) {
+            janTextHeader.setBackgroundResource(R.color.colorAccent);
+            marcTextHeader.setBackgroundResource(R.color.colorAccent);
+            constantinTextHeader.setBackgroundResource(R.color.selectedHeader);
+        }
         // Create an ArrayAdapter from List
         viewAllLists();
-
-        pushNotifiaction("Hallo!");
-
 
         listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -87,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 viewAllLists();
             }
         });
-       listView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 marcChore.get(i).moveOn();
@@ -101,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 viewAllLists();
             }
         });
-       listView3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView3.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 constantinChore.get(i).moveOn();
@@ -115,62 +127,62 @@ public class MainActivity extends AppCompatActivity {
                 viewAllLists();
             }
         });
-       listView1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-           @Override
-           public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-               if (janChore.get(i).getPriority() < 2) {
-                   janChore.get(i).setPriority(janChore.get(i).getPriority() + 1);
-               } else {
-                   janChore.get(i).setPriority(0);
-               }
+        listView1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (janChore.get(i).getPriority() < 2) {
+                    janChore.get(i).setPriority(janChore.get(i).getPriority() + 1);
+                } else {
+                    janChore.get(i).setPriority(0);
+                }
 
-               DataSnapshot ref = findRef(janChore.get(i).name);
-               ref.child("priority").getRef().setValue(janChore.get(i).priority);
+                DataSnapshot ref = findRef(janChore.get(i).name);
+                ref.child("priority").getRef().setValue(janChore.get(i).priority);
 
-               refreshChoreList();
-               viewAllLists();
-               return true;
-           }
-       });
-       listView2.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-           @Override
-           public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-               if (marcChore.get(i).getPriority() < 2) {
-                   marcChore.get(i).setPriority(marcChore.get(i).getPriority() + 1);
-               } else {
-                   marcChore.get(i).setPriority(0);
-               }
+                refreshChoreList();
+                viewAllLists();
+                return true;
+            }
+        });
+        listView2.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (marcChore.get(i).getPriority() < 2) {
+                    marcChore.get(i).setPriority(marcChore.get(i).getPriority() + 1);
+                } else {
+                    marcChore.get(i).setPriority(0);
+                }
 
-               DataSnapshot ref = findRef(marcChore.get(i).name);
-               ref.child("priority").getRef().setValue(marcChore.get(i).priority);
+                DataSnapshot ref = findRef(marcChore.get(i).name);
+                ref.child("priority").getRef().setValue(marcChore.get(i).priority);
 
-               refreshChoreList();
-               viewAllLists();
-               return true;
-           }
-       });
-       listView3.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-           @Override
-           public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-               if (constantinChore.get(i).getPriority() < 2) {
-                   constantinChore.get(i).setPriority(constantinChore.get(i).getPriority() + 1);
-               } else {
-                   constantinChore.get(i).setPriority(0);
-               }
+                refreshChoreList();
+                viewAllLists();
+                return true;
+            }
+        });
+        listView3.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (constantinChore.get(i).getPriority() < 2) {
+                    constantinChore.get(i).setPriority(constantinChore.get(i).getPriority() + 1);
+                } else {
+                    constantinChore.get(i).setPriority(0);
+                }
 
-               DataSnapshot ref = findRef(constantinChore.get(i).name);
-               ref.child("priority").getRef().setValue(constantinChore.get(i).priority);
+                DataSnapshot ref = findRef(constantinChore.get(i).name);
+                ref.child("priority").getRef().setValue(constantinChore.get(i).priority);
 
-               refreshChoreList();
-               viewAllLists();
-               return true;
-           }
-       });
-
+                refreshChoreList();
+                viewAllLists();
+                return true;
+            }
+        });
 
 
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 dataSnapshotMain = dataSnapshot;
@@ -180,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
                 //allChores.clear();
                 for (DataSnapshot sn : dataSnapshot.getChildren()) {
                     String name = sn.child("name").getValue(String.class);
-                    int priority = sn.child("priority").getValue(Integer.class);
+                    @SuppressWarnings("ConstantConditions") int priority = sn.child("priority").getValue(Integer.class);
                     String turnString = sn.child("turn").getValue(String.class);
 
                     assert turnString != null;
@@ -212,30 +224,29 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void changePriorityAppearance(List<Chore> choreList,int position, TextView view) {
-        if (choreList.get(position).getPriority()==2) {
+    private void changePriorityAppearance(List<Chore> choreList, int position, TextView view) {
+        if (choreList.get(position).getPriority() == 2) {
             view.setBackgroundColor(Color.RED);
-        }else
-        if (choreList.get(position).getPriority()==1) {
+        } else if (choreList.get(position).getPriority() == 1) {
             view.setBackgroundColor(Color.YELLOW);
         }
     }
 
 
-    public List<String> getNameList(List<Chore> list){
+    public List<String> getNameList(List<Chore> list) {
         List<String> stringList = new ArrayList<>();
-        for (Chore item:
+        for (Chore item :
                 list) {
             stringList.add(item.name);
         }
         return stringList;
     }
 
-    public void refreshChoreList(){
+    public void refreshChoreList() {
         //Sort Chores by Roommate
         for (int i = 0; i < janChore.size(); i++) {
-            if (janChore.get(i).turn != Roommate.JAN){
-                if (janChore.get(i).turn == Roommate.MARC){
+            if (janChore.get(i).turn != Roommate.JAN) {
+                if (janChore.get(i).turn == Roommate.MARC) {
                     marcChore.add(janChore.get(i));
                 } else {
                     constantinChore.add(janChore.get(i));
@@ -245,8 +256,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         for (int i = 0; i < marcChore.size(); i++) {
-            if (marcChore.get(i).turn != Roommate.MARC){
-                if (marcChore.get(i).turn == Roommate.JAN){
+            if (marcChore.get(i).turn != Roommate.MARC) {
+                if (marcChore.get(i).turn == Roommate.JAN) {
                     janChore.add(marcChore.get(i));
                 } else {
                     constantinChore.add(marcChore.get(i));
@@ -255,8 +266,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         for (int i = 0; i < constantinChore.size(); i++) {
-            if (constantinChore.get(i).turn != Roommate.CONSTANTIN){
-                if (constantinChore.get(i).turn == Roommate.JAN){
+            if (constantinChore.get(i).turn != Roommate.CONSTANTIN) {
+                if (constantinChore.get(i).turn == Roommate.JAN) {
                     janChore.add(constantinChore.get(i));
                 } else {
                     marcChore.add(constantinChore.get(i));
@@ -270,10 +281,10 @@ public class MainActivity extends AppCompatActivity {
         constantinChore = sortByPriority(constantinChore);
     }
 
-    public List<Chore> sortByPriority(List<Chore> choreList){
-        for (int i = 0; i < choreList.size(); i++){
-            for (int j = i; j < choreList.size(); j++){
-                if (choreList.get(i).priority < choreList.get(j).priority){
+    public List<Chore> sortByPriority(List<Chore> choreList) {
+        for (int i = 0; i < choreList.size(); i++) {
+            for (int j = i; j < choreList.size(); j++) {
+                if (choreList.get(i).priority < choreList.get(j).priority) {
                     //swap positions in list
                     Chore tmp = choreList.get(i);
                     choreList.set(i, choreList.get(j));
@@ -285,57 +296,57 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void viewList(ListView listView, final List<Chore> choreList){
+    public void viewList(ListView listView, final List<Chore> choreList) {
         //if (choreList.size() != 0) {
-            final ArrayAdapter<String> arrayAdapter1 = new ArrayAdapter<String>
-                    (this, android.R.layout.simple_list_item_1, getNameList(choreList)) {
-                @NonNull
-                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-                @Override
-                public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-                    // Get the current item from ListView
-                    TextView view = (TextView) super.getView(position, convertView, parent);
-                    TextView textView = view.findViewById(android.R.id.text1);
-                    textView.setTextColor(Color.BLACK);
-                    //view.setBackground(getContext().getDrawable(R.drawable.listview_item_border));
-                    if (choreList.size() != 0) {
-                        changePriorityAppearance(choreList, position, view);
-                        view.setGravity(Gravity.CENTER);
-                    }
-                    return view;
+        final ArrayAdapter<String> arrayAdapter1 = new ArrayAdapter<String>
+                (this, android.R.layout.simple_list_item_1, getNameList(choreList)) {
+            @NonNull
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+                // Get the current item from ListView
+                TextView view = (TextView) super.getView(position, convertView, parent);
+                TextView textView = view.findViewById(android.R.id.text1);
+                textView.setTextColor(Color.BLACK);
+                //view.setBackground(getContext().getDrawable(R.drawable.listview_item_border));
+                if (choreList.size() != 0) {
+                    changePriorityAppearance(choreList, position, view);
+                    view.setGravity(Gravity.CENTER);
                 }
-            };
-            listView.setAdapter(arrayAdapter1);
+                return view;
+            }
+        };
+        listView.setAdapter(arrayAdapter1);
         //}
     }
 
     public void viewAllLists() {
-        viewList(listView1,janChore);
-        viewList(listView2,marcChore);
-        viewList(listView3,constantinChore);
+        viewList(listView1, janChore);
+        viewList(listView2, marcChore);
+        viewList(listView3, constantinChore);
     }
 
-    public void toast(String str){
-        Toast.makeText(getApplicationContext(),str,Toast.LENGTH_LONG).show();
+    public void toast(String str) {
+        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_LONG).show();
     }
 
 
-    public DataSnapshot findRef(String id){
+    public DataSnapshot findRef(String id) {
         for (DataSnapshot snap : dataSnapshotMain.getChildren()) {
-                if (snap.exists()) {
-                    String name = snap.child("name").getValue(String.class);
-                    assert name != null;
-                    if (name.equals(id)) {
-                        return snap;
-                    }
+            if (snap.exists()) {
+                String name = snap.child("name").getValue(String.class);
+                assert name != null;
+                if (name.equals(id)) {
+                    return snap;
                 }
+            }
         }
 
         return null;
     }
 
 
-    public void joinAllChores(){
+    public void joinAllChores() {
         allChores.clear();
         allChores.addAll(janChore);
         allChores.addAll(marcChore);
@@ -349,6 +360,7 @@ public class MainActivity extends AppCompatActivity {
         marcTextHeader.setBackgroundResource(R.color.colorAccent);
         constantinTextHeader.setBackgroundResource(R.color.colorAccent);
 
+        setValue("Jan");
     }
 
     public void marcOnClick(View view) {
@@ -357,6 +369,8 @@ public class MainActivity extends AppCompatActivity {
         janTextHeader.setBackgroundResource(R.color.colorAccent);
         marcTextHeader.setBackgroundResource(R.color.selectedHeader);
         constantinTextHeader.setBackgroundResource(R.color.colorAccent);
+
+        setValue("Marc");
     }
 
     public void constantinOnClick(View view) {
@@ -365,9 +379,12 @@ public class MainActivity extends AppCompatActivity {
         janTextHeader.setBackgroundResource(R.color.colorAccent);
         marcTextHeader.setBackgroundResource(R.color.colorAccent);
         constantinTextHeader.setBackgroundResource(R.color.selectedHeader);
+
+        setValue("Constantin");
     }
 
-    public void checkForImportantChores(){
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void checkForImportantChores() {
         int highestPrio = 0;
         switch (self) {
             case "Jan":
@@ -401,16 +418,16 @@ public class MainActivity extends AppCompatActivity {
 
         if (highestPrio == 1) {
             pushNotifiaction("Du hast noch Aufgaben zu erledgen!");
-        } else if (highestPrio == 2){
+        } else if (highestPrio == 2) {
             pushNotifiaction("Sei mal kein Antim8 und hilf deiner WG!");
         } else {
-            NotificationManager notificationManager = (NotificationManager) getSystemService(NotificationManager.class);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
             assert notificationManager != null;
             notificationManager.cancel(NOTIFICATION_ID);
         }
     }
 
-    public void pushNotifiaction(String text){
+    public void pushNotifiaction(String text) {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("WG-Erinnerung")
@@ -434,6 +451,25 @@ public class MainActivity extends AppCompatActivity {
         }
         mBuilder.build().notify();
 
+    }
+
+    void setValue(String text) {
+        SharedPreferences.Editor editor = getSharedPreferences("abc", MODE_PRIVATE).edit();
+        editor.putString("self", text);
+        editor.apply();
+
+    }
+
+
+    String getValue() {
+        SharedPreferences prefs = getSharedPreferences("abc", MODE_PRIVATE);
+        String restoredText = prefs.getString("self", null);
+        if (restoredText != null) {
+            Log.d("sharedPref_string", restoredText);
+        } else {
+            Log.d("sharedPref_string", "not found");
+        }
+        return restoredText;
     }
 }
 
