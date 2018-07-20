@@ -1,6 +1,9 @@
 package braess.constantin.wgterminal;
 
 import android.graphics.Color;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +22,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,9 +37,13 @@ public class MainActivity extends AppCompatActivity {
     public List<Chore> constantinChore = new ArrayList<>();
     public FirebaseDatabase data;
 
+    public String self;
+
 
     private DataSnapshot dataSnapshotMain;
     private ListView listView1,listView2,listView3;
+
+    private TextView janTextHeader, marcTextHeader, constantinTextHeader;
 
 
     @Override
@@ -47,6 +56,10 @@ public class MainActivity extends AppCompatActivity {
         listView1 = findViewById(R.id.janChores);
         listView2 = findViewById(R.id.marcChores);
         listView3 = findViewById(R.id.constantinChores);
+
+        janTextHeader = findViewById(R.id.janHeader);
+        marcTextHeader = findViewById(R.id.marcHeader);
+        constantinTextHeader = findViewById(R.id.constantinHeader);
 
         refreshChoreList();
 
@@ -165,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
                     int priority = sn.child("priority").getValue(Integer.class);
                     String turnString = sn.child("turn").getValue(String.class);
 
+                    assert turnString != null;
                     switch (turnString) {
                         case "CONSTANTIN":
                             constantinChore.add(new Chore(name, Roommate.CONSTANTIN, priority));
@@ -269,11 +283,13 @@ public class MainActivity extends AppCompatActivity {
         //if (choreList.size() != 0) {
             final ArrayAdapter<String> arrayAdapter1 = new ArrayAdapter<String>
                     (this, android.R.layout.simple_list_item_1, getNameList(choreList)) {
+                @NonNull
+                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
-                public View getView(int position, View convertView, ViewGroup parent) {
+                public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                     // Get the current item from ListView
                     TextView view = (TextView) super.getView(position, convertView, parent);
-                    TextView textView = (TextView) view.findViewById(android.R.id.text1);
+                    TextView textView = view.findViewById(android.R.id.text1);
                     textView.setTextColor(Color.BLACK);
                     view.setBackground(getContext().getDrawable(R.drawable.listview_item_border));
                     if (choreList.size() != 0) {
@@ -302,6 +318,7 @@ public class MainActivity extends AppCompatActivity {
         for (DataSnapshot snap : dataSnapshotMain.getChildren()) {
                 if (snap.exists()) {
                     String name = snap.child("name").getValue(String.class);
+                    assert name != null;
                     if (name.equals(id)) {
                         return snap;
                     }
@@ -317,6 +334,31 @@ public class MainActivity extends AppCompatActivity {
         allChores.addAll(janChore);
         allChores.addAll(marcChore);
         allChores.addAll(constantinChore);
+    }
+
+
+    public void janOnClick(View view) {
+        self = "Jan";
+        janTextHeader.setBackgroundResource(R.color.selectedHeader);
+        marcTextHeader.setBackgroundResource(R.color.colorAccent);
+        constantinTextHeader.setBackgroundResource(R.color.colorAccent);
+
+    }
+
+    public void marcOnClick(View view) {
+        self = "Marc";
+
+        janTextHeader.setBackgroundResource(R.color.colorAccent);
+        marcTextHeader.setBackgroundResource(R.color.selectedHeader);
+        constantinTextHeader.setBackgroundResource(R.color.colorAccent);
+    }
+
+    public void constantinOnClick(View view) {
+        self = "Constantin";
+
+        janTextHeader.setBackgroundResource(R.color.colorAccent);
+        marcTextHeader.setBackgroundResource(R.color.colorAccent);
+        constantinTextHeader.setBackgroundResource(R.color.selectedHeader);
     }
 }
 

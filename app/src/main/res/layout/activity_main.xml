@@ -15,31 +15,44 @@
         android:weightSum="3">
 
         <TextView
+            android:id="@+id/janHeader"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/jan"
             android:textColor="@color/black"
-            android:textSize="25sp" />
+            android:textSize="25sp"
+            android:clickable="true"
+            android:onClick="janOnClick"
+            android:focusable="true" />
 
         <TextView
+            android:id="@+id/marcHeader"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/marc"
             android:textColor="@color/black"
-            android:textSize="25sp" />
+            android:textSize="25sp"
+            android:clickable="true"
+            android:onClick="marcOnClick"
+            android:focusable="true"
+            tools:ignore="OnClick" />
 
         <TextView
+            android:id="@+id/constantinHeader"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/constantin"
             android:textColor="@color/black"
-            android:textSize="25sp" />
+            android:textSize="25sp"
+            android:clickable="true"
+            android:onClick="constantinOnClick"
+            android:focusable="true" />
     </LinearLayout>
     <LinearLayout
         android:layout_below="@id/TitleParent"
@@ -47,7 +60,8 @@
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:weightSum="3"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:baselineAligned="false">
 
 
 
