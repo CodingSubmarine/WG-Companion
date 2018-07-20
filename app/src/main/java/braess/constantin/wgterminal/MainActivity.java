@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        database.setPersistenceEnabled(true);
         DatabaseReference myRef = database.getReference("Chores");
         data = database;
         listView1 = findViewById(R.id.janChores);
@@ -455,7 +456,6 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         mBuilder.build().notify();
-
     }
 
     void setValue(String text) {
@@ -477,4 +477,3 @@ public class MainActivity extends AppCompatActivity {
         return restoredText;
     }
 }
-
