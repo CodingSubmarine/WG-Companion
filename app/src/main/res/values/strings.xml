@@ -3,4 +3,6 @@
     <string name="jan">Jan</string>
     <string name="constantin">Constantin</string>
     <string name="marc">Marc</string>
+    <string name="channel_name">notificationChannel</string>
+    <string name="channel_description">WG_Companion_Notifications</string>
 </resources>

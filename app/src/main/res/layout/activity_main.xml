@@ -63,8 +63,6 @@
         android:layout_height="match_parent"
         android:baselineAligned="false">
 
-
-
         <ListView
             android:id="@+id/janChores"
             android:layout_width="0dp"
@@ -72,20 +70,29 @@
             android:layout_weight="1"
             android:scrollbars="none"
             android:background="@color/white"
+            android:divider="@color/grey"
+            android:footerDividersEnabled="false"
+            android:dividerHeight="1dp"
             />
+
 
         <ListView
             android:id="@+id/marcChores"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:scrollbars="none" />
+            android:scrollbars="none"
+            android:divider="@color/grey"
+            android:dividerHeight="1dp"/>
 
         <ListView
             android:id="@+id/constantinChores"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:scrollbars="none" />
+            android:scrollbars="none"
+            android:divider="@color/grey"
+            android:dividerHeight="1dp"/>
     </LinearLayout>
+
 </RelativeLayout>

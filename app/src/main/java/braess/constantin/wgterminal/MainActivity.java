@@ -1,9 +1,12 @@
 package braess.constantin.wgterminal;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,8 +25,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,13 +32,15 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String CHANNEL_ID = "channelID";
+    private static final int NOTIFICATION_ID = 1;
     public List<Chore> allChores = new ArrayList<>();
     public List<Chore> janChore = new ArrayList<>();
     public List<Chore> marcChore = new ArrayList<>();
     public List<Chore> constantinChore = new ArrayList<>();
     public FirebaseDatabase data;
 
-    public String self;
+    public String self = "";
 
 
     private DataSnapshot dataSnapshotMain;
@@ -66,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Create an ArrayAdapter from List
         viewAllLists();
+
+        pushNotifiaction("Hallo!");
 
 
         listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -195,6 +200,7 @@ public class MainActivity extends AppCompatActivity {
                 joinAllChores();
                 refreshChoreList();
                 viewAllLists();
+                checkForImportantChores();
             }
 
             @Override
@@ -291,7 +297,7 @@ public class MainActivity extends AppCompatActivity {
                     TextView view = (TextView) super.getView(position, convertView, parent);
                     TextView textView = view.findViewById(android.R.id.text1);
                     textView.setTextColor(Color.BLACK);
-                    view.setBackground(getContext().getDrawable(R.drawable.listview_item_border));
+                    //view.setBackground(getContext().getDrawable(R.drawable.listview_item_border));
                     if (choreList.size() != 0) {
                         changePriorityAppearance(choreList, position, view);
                         view.setGravity(Gravity.CENTER);
@@ -359,6 +365,75 @@ public class MainActivity extends AppCompatActivity {
         janTextHeader.setBackgroundResource(R.color.colorAccent);
         marcTextHeader.setBackgroundResource(R.color.colorAccent);
         constantinTextHeader.setBackgroundResource(R.color.selectedHeader);
+    }
+
+    public void checkForImportantChores(){
+        int highestPrio = 0;
+        switch (self) {
+            case "Jan":
+                for (Chore chore : janChore) {
+                    if (chore.getPriority() > highestPrio) {
+                        highestPrio = chore.getPriority();
+                    }
+                }
+                break;
+
+            case "Marc":
+                for (Chore chore : marcChore) {
+                    if (chore.getPriority() > highestPrio) {
+                        highestPrio = chore.getPriority();
+                    }
+                }
+                break;
+
+            case "Constantin":
+                for (Chore chore : constantinChore) {
+                    if (chore.getPriority() > highestPrio) {
+                        highestPrio = chore.getPriority();
+                    }
+                }
+                break;
+
+            default:
+                toast("Bitte wähle eine Liste aus");
+                break;
+        }
+
+        if (highestPrio == 1) {
+            pushNotifiaction("Du hast noch Aufgaben zu erledgen!");
+        } else if (highestPrio == 2){
+            pushNotifiaction("Sei mal kein Antim8 und hilf deiner WG!");
+        } else {
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NotificationManager.class);
+            assert notificationManager != null;
+            notificationManager.cancel(NOTIFICATION_ID);
+        }
+    }
+
+    public void pushNotifiaction(String text){
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("WG-Erinnerung")
+                .setContentText(text);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            assert notificationManager != null;
+            notificationManager.createNotificationChannel(channel);
+
+            notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+
+            return;
+        }
+        mBuilder.build().notify();
+
     }
 }
 
