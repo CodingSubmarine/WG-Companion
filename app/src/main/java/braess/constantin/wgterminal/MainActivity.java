@@ -434,7 +434,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void pushNotifiaction(String text) {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle("WG-Erinnerung")
                 .setContentText(text)
                 .setOngoing(true);
@@ -450,9 +450,7 @@ public class MainActivity extends AppCompatActivity {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             assert notificationManager != null;
             notificationManager.createNotificationChannel(channel);
-
             notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
-
             return;
         }
         mBuilder.build().notify();
@@ -464,7 +462,6 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
 
     }
-
 
     String getValue() {
         SharedPreferences prefs = getSharedPreferences("abc", MODE_PRIVATE);
