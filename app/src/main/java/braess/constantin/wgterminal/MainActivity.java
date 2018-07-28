@@ -5,11 +5,12 @@ import android.app.NotificationManager;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -29,6 +30,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import braess.constantin.wgcompanion.R;
+
 //useless comment
 
 public class MainActivity extends AppCompatActivity {
@@ -41,10 +44,16 @@ public class MainActivity extends AppCompatActivity {
     public List<Chore> constantinChore = new ArrayList<>();
     public FirebaseDatabase data;
 
+    public boolean jan = true;
+    public boolean marc = true;
+    public boolean constantin = true;
+
+
     public String self = "";
 
 
-    private DataSnapshot dataSnapshotMain;
+    private DataSnapshot dataSnapshotChores;
+    private DataSnapshot dataSnapshotMates;
     private ListView listView1, listView2, listView3;
 
     private TextView janTextHeader, marcTextHeader, constantinTextHeader;
@@ -56,7 +65,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         database.setPersistenceEnabled(true);
+        //DatabaseReference myRef = database.getReference("wgterminal-ce537");
         DatabaseReference myRef = database.getReference("Chores");
+        final DatabaseReference mateRef = database.getReference("Mates");
         data = database;
         listView1 = findViewById(R.id.janChores);
         listView2 = findViewById(R.id.marcChores);
@@ -87,8 +98,43 @@ public class MainActivity extends AppCompatActivity {
                 constantinTextHeader.setBackgroundResource(R.color.selectedHeader);
                 break;
         }
+
+
+
+
         // Create an ArrayAdapter from List
         viewAllLists();
+
+        janTextHeader.setOnLongClickListener(new AdapterView.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                jan = ! jan;
+                updateAbsence();
+                dataSnapshotMates.child("Jan").getRef().setValue(jan);
+
+                return true;
+            }
+        });
+        marcTextHeader.setOnLongClickListener(new AdapterView.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                marc = ! marc;
+                updateAbsence();
+                dataSnapshotMates.child("Marc").getRef().setValue(jan);
+
+                return true;
+            }
+        });
+        constantinTextHeader.setOnLongClickListener(new AdapterView.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                constantin = ! constantin;
+                dataSnapshotMates.child("Constantin").getRef().setValue(jan);
+
+                updateAbsence();
+                return true;
+            }
+        });
 
         listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -96,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                 janChore.get(i).moveOn();
                 janChore.get(i).setPriority(0);
 
-                DataSnapshot ref = findRef(janChore.get(i).name);
+                DataSnapshot ref = findRefChores(janChore.get(i).name);
                 ref.child("turn").getRef().setValue(janChore.get(i).turn.toString());
                 ref.child("priority").getRef().setValue(janChore.get(i).priority);
 
@@ -110,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
                 marcChore.get(i).moveOn();
                 marcChore.get(i).setPriority(0);
 
-                DataSnapshot ref = findRef(marcChore.get(i).name);
+                DataSnapshot ref = findRefChores(marcChore.get(i).name);
                 ref.child("turn").getRef().setValue(marcChore.get(i).turn.toString());
                 ref.child("priority").getRef().setValue(marcChore.get(i).priority);
 
@@ -124,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                 constantinChore.get(i).moveOn();
                 constantinChore.get(i).setPriority(0);
 
-                DataSnapshot ref = findRef(constantinChore.get(i).name);
+                DataSnapshot ref = findRefChores(constantinChore.get(i).name);
                 ref.child("turn").getRef().setValue(constantinChore.get(i).turn.toString());
                 ref.child("priority").getRef().setValue(constantinChore.get(i).priority);
 
@@ -141,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
                     janChore.get(i).setPriority(0);
                 }
 
-                DataSnapshot ref = findRef(janChore.get(i).name);
+                DataSnapshot ref = findRefChores(janChore.get(i).name);
                 ref.child("priority").getRef().setValue(janChore.get(i).priority);
 
                 refreshChoreList();
@@ -158,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
                     marcChore.get(i).setPriority(0);
                 }
 
-                DataSnapshot ref = findRef(marcChore.get(i).name);
+                DataSnapshot ref = findRefChores(marcChore.get(i).name);
                 ref.child("priority").getRef().setValue(marcChore.get(i).priority);
 
                 refreshChoreList();
@@ -175,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
                     constantinChore.get(i).setPriority(0);
                 }
 
-                DataSnapshot ref = findRef(constantinChore.get(i).name);
+                DataSnapshot ref = findRefChores(constantinChore.get(i).name);
                 ref.child("priority").getRef().setValue(constantinChore.get(i).priority);
 
                 refreshChoreList();
@@ -190,11 +236,12 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                dataSnapshotMain = dataSnapshot;
+                dataSnapshotChores = dataSnapshot;
                 janChore.clear();
                 marcChore.clear();
                 constantinChore.clear();
                 //allChores.clear();
+                //DataSnapshot choresData = dataSnapshot.child("Chores");
                 for (DataSnapshot sn : dataSnapshot.getChildren()) {
                     String name = sn.child("name").getValue(String.class);
                     @SuppressWarnings("ConstantConditions") int priority = sn.child("priority").getValue(Integer.class);
@@ -212,21 +259,59 @@ public class MainActivity extends AppCompatActivity {
                             marcChore.add(new Chore(name, Roommate.MARC, priority));
                             break;
                     }
-                    //toast(findRef("Jan gay").getKey());
+                    //toast(findRefChores("Jan gay").getKey());
                 }
                 joinAllChores();
                 refreshChoreList();
                 viewAllLists();
                 checkForImportantChores();
-            }
-
+                }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 // Failed to read value
                 Log.w("TAG", "Failed to read value.", error.toException());
             }
         });
+        mateRef.addValueEventListener(new ValueEventListener() {
+            @SuppressWarnings("ConstantConditions")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                dataSnapshotMates = dataSnapshot;
+                jan = dataSnapshot.child("Jan").getValue(Boolean.class);
+                marc = dataSnapshot.child("Marc").getValue(Boolean.class);
+                constantin = dataSnapshot.child("Constantin").getValue(Boolean.class);
+                updateAbsence();
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+    }
+
+    public void updateAbsence(){
+        if (!jan){
+            janTextHeader.setBackgroundResource(R.color.absent);
+            listView1.setBackgroundResource(R.color.absent);
+        } else {
+            janTextHeader.setBackgroundResource(R.color.colorAccent);
+            listView1.setBackgroundResource(R.color.white);
+        }
+        if (!marc){
+            marcTextHeader.setBackgroundResource(R.color.absent);
+            listView2.setBackgroundResource(R.color.absent);
+        } else {
+            marcTextHeader.setBackgroundResource(R.color.colorAccent);
+            listView2.setBackgroundResource(R.color.white);
+        }
+        if (!constantin){
+            constantinTextHeader.setBackgroundResource(R.color.absent);
+            listView3.setBackgroundResource(R.color.absent);
+        } else {
+            constantinTextHeader.setBackgroundResource(R.color.colorAccent);
+            listView3.setBackgroundResource(R.color.white);
+        }
     }
 
     private void changePriorityAppearance(List<Chore> choreList, int position, TextView view) {
@@ -336,8 +421,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public DataSnapshot findRef(String id) {
-        for (DataSnapshot snap : dataSnapshotMain.getChildren()) {
+    public DataSnapshot findRefChores(String id) {
+        for (DataSnapshot snap : dataSnapshotChores.getChildren()) {
             if (snap.exists()) {
                 String name = snap.child("name").getValue(String.class);
                 assert name != null;
@@ -346,10 +431,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-
         return null;
     }
-
 
     public void joinAllChores() {
         allChores.clear();
@@ -361,6 +444,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void janOnClick(View view) {
         self = "Jan";
+
         janTextHeader.setBackgroundResource(R.color.selectedHeader);
         marcTextHeader.setBackgroundResource(R.color.colorAccent);
         constantinTextHeader.setBackgroundResource(R.color.colorAccent);
