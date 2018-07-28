@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
@@ -29,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import braess.constantin.wgcompanion.R;
 
@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
     private DataSnapshot dataSnapshotChores;
     private DataSnapshot dataSnapshotMates;
+    private DataSnapshot dataSnapshotBackup;
     private ListView listView1, listView2, listView3;
 
     private TextView janTextHeader, marcTextHeader, constantinTextHeader;
@@ -66,8 +67,9 @@ public class MainActivity extends AppCompatActivity {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         database.setPersistenceEnabled(true);
         //DatabaseReference myRef = database.getReference("wgterminal-ce537");
-        DatabaseReference myRef = database.getReference("Chores");
+        final DatabaseReference myRef = database.getReference("Chores");
         final DatabaseReference mateRef = database.getReference("Mates");
+        final DatabaseReference backupRef = database.getReference("Backup");
         data = database;
         listView1 = findViewById(R.id.janChores);
         listView2 = findViewById(R.id.marcChores);
@@ -108,29 +110,84 @@ public class MainActivity extends AppCompatActivity {
         janTextHeader.setOnLongClickListener(new AdapterView.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                jan = ! jan;
-                updateAbsence();
-                dataSnapshotMates.child("Jan").getRef().setValue(jan);
-
+                if (marc && constantin) {
+                    jan = !jan;
+                    updateAbsence();
+                    dataSnapshotMates.child("Jan").getRef().setValue(jan);
+                    if (jan) {
+                        loadBackup();
+                    } else {
+                        createBackup();
+                        for (int i = 0; i < janChore.size(); i++) {
+                            if (i % 2 == 0) {
+                                janChore.get(i).moveOn();
+                            }
+                            janChore.get(i).moveOn();
+                            DataSnapshot ref = findRefChores(janChore.get(i).name);
+                            ref.child("turn").getRef().setValue(janChore.get(i).turn.toString());
+                        }
+                        refreshChoreList();
+                        viewAllLists();
+                    }
+                } else {
+                    toast("Only one mate can be marked as absent at once");
+                }
                 return true;
             }
         });
         marcTextHeader.setOnLongClickListener(new AdapterView.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                marc = ! marc;
-                updateAbsence();
-                dataSnapshotMates.child("Marc").getRef().setValue(jan);
-
+                if (jan && constantin) {
+                    marc = !marc;
+                    updateAbsence();
+                    dataSnapshotMates.child("Marc").getRef().setValue(marc);
+                    if (marc) {
+                        loadBackup();
+                    } else {
+                        createBackup();
+                        for (int i = 0; i < marcChore.size(); i++) {
+                            if (i % 2 == 0) {
+                                marcChore.get(i).moveOn();
+                            }
+                            marcChore.get(i).moveOn();
+                            DataSnapshot ref = findRefChores(marcChore.get(i).name);
+                            ref.child("turn").getRef().setValue(marcChore.get(i).turn.toString());
+                        }
+                        refreshChoreList();
+                        viewAllLists();
+                    }
+                } else {
+                    toast("Only one mate can be marked as absent at once");
+                }
                 return true;
             }
         });
         constantinTextHeader.setOnLongClickListener(new AdapterView.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                constantin = ! constantin;
-                dataSnapshotMates.child("Constantin").getRef().setValue(jan);
-
+                if (jan && marc) {
+                    constantin = !constantin;
+                    updateAbsence();
+                    dataSnapshotMates.child("Constantin").getRef().setValue(constantin);
+                    if (constantin) {
+                        loadBackup();
+                    } else {
+                        createBackup();
+                        for (int i = 0; i < constantinChore.size(); i++) {
+                            if (i % 2 == 0) {
+                                constantinChore.get(i).moveOn();
+                            }
+                            constantinChore.get(i).moveOn();
+                            DataSnapshot ref = findRefChores(constantinChore.get(i).name);
+                            ref.child("turn").getRef().setValue(constantinChore.get(i).turn.toString());
+                        }
+                        //refreshChoreList();
+                        //viewAllLists();
+                    }
+                } else {
+                    toast("Only one mate can be marked as absent at once");
+                }
                 updateAbsence();
                 return true;
             }
@@ -285,6 +342,18 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+        backupRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                dataSnapshotBackup = dataSnapshot;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
 
@@ -556,5 +625,29 @@ public class MainActivity extends AppCompatActivity {
             Log.d("sharedPref_string", "not found");
         }
         return restoredText;
+    }
+
+    void createBackup() {
+        for (DataSnapshot sn : dataSnapshotChores.getChildren()) {
+            for (DataSnapshot snBackup : dataSnapshotBackup.getChildren()) {
+                if (Objects.equals(sn.child("name").getValue(), snBackup.child("name").getValue())) {
+                    snBackup.child("priority").getRef().setValue(sn.child("priority").getValue());
+                    snBackup.child("turn").getRef().setValue(sn.child("turn").getValue());
+                    break;
+                }
+            }
+        }
+    }
+
+    void loadBackup() {
+        for (DataSnapshot sn : dataSnapshotBackup.getChildren()) {
+            for (DataSnapshot snBackup : dataSnapshotChores.getChildren()) {
+                if (Objects.equals(sn.child("name").getValue(), snBackup.child("name").getValue())) {
+                    snBackup.child("priority").getRef().setValue(sn.child("priority").getValue());
+                    snBackup.child("turn").getRef().setValue(sn.child("turn").getValue());
+                    break;
+                }
+            }
+        }
     }
 }
