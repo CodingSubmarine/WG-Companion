@@ -102,8 +102,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
-
         // Create an ArrayAdapter from List
         viewAllLists();
 
@@ -197,6 +195,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 janChore.get(i).moveOn();
+                if (!marc) {
+                    janChore.get(i).moveOn();
+                }
                 janChore.get(i).setPriority(0);
 
                 DataSnapshot ref = findRefChores(janChore.get(i).name);
@@ -212,6 +213,9 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 marcChore.get(i).moveOn();
                 marcChore.get(i).setPriority(0);
+                if (!constantin) {
+                    marcChore.get(i).moveOn();
+                }
 
                 DataSnapshot ref = findRefChores(marcChore.get(i).name);
                 ref.child("turn").getRef().setValue(marcChore.get(i).turn.toString());
@@ -226,6 +230,9 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 constantinChore.get(i).moveOn();
                 constantinChore.get(i).setPriority(0);
+                if (!jan) {
+                    constantinChore.get(i).moveOn();
+                }
 
                 DataSnapshot ref = findRefChores(constantinChore.get(i).name);
                 ref.child("turn").getRef().setValue(constantinChore.get(i).turn.toString());
@@ -322,7 +329,8 @@ public class MainActivity extends AppCompatActivity {
                 refreshChoreList();
                 viewAllLists();
                 checkForImportantChores();
-                }
+            }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 // Failed to read value
@@ -359,29 +367,45 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void updateAbsence(){
-        if (!jan){
+    public void updateAbsence() {
+        switch (self) {
+            case "Jan":
+                janTextHeader.setBackgroundResource(R.color.selectedHeader);
+                marcTextHeader.setBackgroundResource(R.color.colorAccent);
+                constantinTextHeader.setBackgroundResource(R.color.colorAccent);
+                break;
+            case "Marc":
+                janTextHeader.setBackgroundResource(R.color.colorAccent);
+                marcTextHeader.setBackgroundResource(R.color.selectedHeader);
+                constantinTextHeader.setBackgroundResource(R.color.colorAccent);
+                break;
+            case "Constantin":
+                janTextHeader.setBackgroundResource(R.color.colorAccent);
+                marcTextHeader.setBackgroundResource(R.color.colorAccent);
+                constantinTextHeader.setBackgroundResource(R.color.selectedHeader);
+                break;
+        }
+
+        if (!jan) {
             janTextHeader.setBackgroundResource(R.color.absent);
             listView1.setBackgroundResource(R.color.absent);
         } else {
-            janTextHeader.setBackgroundResource(R.color.colorAccent);
             listView1.setBackgroundResource(R.color.white);
         }
-        if (!marc){
+        if (!marc) {
             marcTextHeader.setBackgroundResource(R.color.absent);
             listView2.setBackgroundResource(R.color.absent);
         } else {
-            marcTextHeader.setBackgroundResource(R.color.colorAccent);
             listView2.setBackgroundResource(R.color.white);
         }
-        if (!constantin){
+        if (!constantin) {
             constantinTextHeader.setBackgroundResource(R.color.absent);
             listView3.setBackgroundResource(R.color.absent);
         } else {
-            constantinTextHeader.setBackgroundResource(R.color.colorAccent);
             listView3.setBackgroundResource(R.color.white);
         }
     }
+
 
     private void changePriorityAppearance(List<Chore> choreList, int position, TextView view) {
         if (choreList.get(position).getPriority() == 2) {
@@ -519,6 +543,7 @@ public class MainActivity extends AppCompatActivity {
         constantinTextHeader.setBackgroundResource(R.color.colorAccent);
 
         setValue("Jan");
+        updateAbsence();
     }
 
     public void marcOnClick(View view) {
@@ -529,6 +554,7 @@ public class MainActivity extends AppCompatActivity {
         constantinTextHeader.setBackgroundResource(R.color.colorAccent);
 
         setValue("Marc");
+        updateAbsence();
     }
 
     public void constantinOnClick(View view) {
@@ -539,6 +565,7 @@ public class MainActivity extends AppCompatActivity {
         constantinTextHeader.setBackgroundResource(R.color.selectedHeader);
 
         setValue("Constantin");
+        updateAbsence();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
