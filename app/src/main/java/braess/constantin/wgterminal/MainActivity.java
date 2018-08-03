@@ -1,7 +1,7 @@
 package braess.constantin.wgterminal;
-
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,13 +67,16 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_home:
+                case R.id.navigation_chores:
                     //mTextMessage.setText(R.string.title_home);
                     return true;
-                case R.id.navigation_dashboard:
+                case R.id.navigation_todo:
+                    Intent todoIntent = new Intent(getApplicationContext(), todo.class);
+                    todoIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(todoIntent);
                     //mTextMessage.setText(R.string.title_dashboard);
                     return true;
-                case R.id.navigation_notifications:
+                case R.id.navigation_undefined:
                     //mTextMessage.setText(R.string.title_notifications);
                     return true;
             }
@@ -90,8 +92,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        database.setPersistenceEnabled(true);
+        final FirebaseDatabase database = Utils.getDatabase();
         //DatabaseReference myRef = database.getReference("wgterminal-ce537");
         final DatabaseReference myRef = database.getReference("Chores");
         final DatabaseReference mateRef = database.getReference("Mates");
@@ -109,24 +110,36 @@ public class MainActivity extends AppCompatActivity {
 
         self = getValue();
 
-        switch (self) {
-            case "Jan":
-                janTextHeader.setBackgroundResource(R.color.selectedHeader);
-                marcTextHeader.setBackgroundResource(R.color.colorAccent);
-                constantinTextHeader.setBackgroundResource(R.color.colorAccent);
-                break;
-            case "Marc":
-                janTextHeader.setBackgroundResource(R.color.colorAccent);
-                marcTextHeader.setBackgroundResource(R.color.selectedHeader);
-                constantinTextHeader.setBackgroundResource(R.color.colorAccent);
-                break;
-            case "Constantin":
-                janTextHeader.setBackgroundResource(R.color.colorAccent);
-                marcTextHeader.setBackgroundResource(R.color.colorAccent);
-                constantinTextHeader.setBackgroundResource(R.color.selectedHeader);
-                break;
-        }
+        if (self != null) {
 
+            switch (self) {
+                case "Jan":
+                    janTextHeader.setBackgroundResource(R.color.selectedHeader);
+                    marcTextHeader.setBackgroundResource(R.color.colorAccent);
+                    constantinTextHeader.setBackgroundResource(R.color.colorAccent);
+                    break;
+                case "Marc":
+                    janTextHeader.setBackgroundResource(R.color.colorAccent);
+                    marcTextHeader.setBackgroundResource(R.color.selectedHeader);
+                    constantinTextHeader.setBackgroundResource(R.color.colorAccent);
+                    break;
+                case "Constantin":
+                    janTextHeader.setBackgroundResource(R.color.colorAccent);
+                    marcTextHeader.setBackgroundResource(R.color.colorAccent);
+                    constantinTextHeader.setBackgroundResource(R.color.selectedHeader);
+                    break;
+                default:
+                    janTextHeader.setBackgroundResource(R.color.colorAccent);
+                    marcTextHeader.setBackgroundResource(R.color.colorAccent);
+                    constantinTextHeader.setBackgroundResource(R.color.colorAccent);
+            }
+        }  else {
+
+            janTextHeader.setBackgroundResource(R.color.colorAccent);
+            marcTextHeader.setBackgroundResource(R.color.colorAccent);
+            constantinTextHeader.setBackgroundResource(R.color.colorAccent);
+
+        }
 
         // Create an ArrayAdapter from List
         viewAllLists();
@@ -394,22 +407,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateAbsence() {
-        switch (self) {
-            case "Jan":
-                janTextHeader.setBackgroundResource(R.color.selectedHeader);
-                marcTextHeader.setBackgroundResource(R.color.colorAccent);
-                constantinTextHeader.setBackgroundResource(R.color.colorAccent);
-                break;
-            case "Marc":
-                janTextHeader.setBackgroundResource(R.color.colorAccent);
-                marcTextHeader.setBackgroundResource(R.color.selectedHeader);
-                constantinTextHeader.setBackgroundResource(R.color.colorAccent);
-                break;
-            case "Constantin":
-                janTextHeader.setBackgroundResource(R.color.colorAccent);
-                marcTextHeader.setBackgroundResource(R.color.colorAccent);
-                constantinTextHeader.setBackgroundResource(R.color.selectedHeader);
-                break;
+        if (self != null) {
+            switch (self) {
+                case "Jan":
+                    janTextHeader.setBackgroundResource(R.color.selectedHeader);
+                    marcTextHeader.setBackgroundResource(R.color.colorAccent);
+                    constantinTextHeader.setBackgroundResource(R.color.colorAccent);
+                    break;
+                case "Marc":
+                    janTextHeader.setBackgroundResource(R.color.colorAccent);
+                    marcTextHeader.setBackgroundResource(R.color.selectedHeader);
+                    constantinTextHeader.setBackgroundResource(R.color.colorAccent);
+                    break;
+                case "Constantin":
+                    janTextHeader.setBackgroundResource(R.color.colorAccent);
+                    marcTextHeader.setBackgroundResource(R.color.colorAccent);
+                    constantinTextHeader.setBackgroundResource(R.color.selectedHeader);
+                    break;
+            }
+        } else {
+
+            janTextHeader.setBackgroundResource(R.color.colorAccent);
+            marcTextHeader.setBackgroundResource(R.color.colorAccent);
+            constantinTextHeader.setBackgroundResource(R.color.colorAccent);
+
         }
 
         if (!jan) {
@@ -597,34 +618,43 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void checkForImportantChores() {
         int highestPrio = 0;
-        switch (self) {
-            case "Jan":
-                for (Chore chore : janChore) {
-                    if (chore.getPriority() > highestPrio) {
-                        highestPrio = chore.getPriority();
+        if (self != null) {
+            switch (self) {
+                case "Jan":
+                    for (Chore chore : janChore) {
+                        if (chore.getPriority() > highestPrio) {
+                            highestPrio = chore.getPriority();
+                        }
                     }
-                }
-                break;
+                    break;
 
-            case "Marc":
-                for (Chore chore : marcChore) {
-                    if (chore.getPriority() > highestPrio) {
-                        highestPrio = chore.getPriority();
+                case "Marc":
+                    for (Chore chore : marcChore) {
+                        if (chore.getPriority() > highestPrio) {
+                            highestPrio = chore.getPriority();
+                        }
                     }
-                }
-                break;
+                    break;
 
-            case "Constantin":
-                for (Chore chore : constantinChore) {
-                    if (chore.getPriority() > highestPrio) {
-                        highestPrio = chore.getPriority();
+
+                case "Constantin":
+                    for (Chore chore : constantinChore) {
+                        if (chore.getPriority() > highestPrio) {
+                            highestPrio = chore.getPriority();
+                        }
                     }
-                }
-                break;
+                    break;
 
-            default:
-                toast("Bitte wähle eine Liste aus");
-                break;
+                default:
+                    toast("Bitte wähle eine Liste aus");
+                    break;
+            }
+        }  else {
+
+            janTextHeader.setBackgroundResource(R.color.colorAccent);
+            marcTextHeader.setBackgroundResource(R.color.colorAccent);
+            constantinTextHeader.setBackgroundResource(R.color.colorAccent);
+
         }
 
         if (highestPrio == 1) {
