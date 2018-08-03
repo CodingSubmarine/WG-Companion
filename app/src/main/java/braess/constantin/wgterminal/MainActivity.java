@@ -538,7 +538,6 @@ public class MainActivity extends AppCompatActivity {
                 TextView view = (TextView) super.getView(position, convertView, parent);
                 TextView textView = view.findViewById(android.R.id.text1);
                 textView.setTextColor(Color.BLACK);
-                //view.setBackground(getContext().getDrawable(R.drawable.listview_item_border));
                 if (choreList.size() != 0) {
                     changePriorityAppearance(choreList, position, view);
                     view.setGravity(Gravity.CENTER);
@@ -547,7 +546,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         listView.setAdapter(arrayAdapter1);
-        //}
     }
 
     public void viewAllLists() {
