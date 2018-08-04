@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
@@ -22,12 +22,13 @@
             android:id="@+id/todoHeader"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="@string/todo_liste"
-            android:textSize="25sp"
             android:layout_gravity="center"
+            android:textAlignment="center"
             android:layout_weight="1"
             android:background="@color/colorAccent"
-            android:textColor="@color/black"/>
+            android:text="@string/todo_liste"
+            android:textColor="@color/black"
+            android:textSize="25sp" />
 
     </LinearLayout>
 
@@ -46,12 +47,27 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/white"
+            android:clickable="true"
             android:divider="@color/grey"
             android:dividerHeight="1dp"
             android:footerDividersEnabled="false"
             android:scrollbars="none">
         </ListView>
     </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/addTodoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_above="@+id/navigation"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:longClickable="true"
+        android:background="@color/colorPrimary"
+        app:rippleColor="@color/colorPrimary"
+        android:src="@drawable/todoicon" />
+
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
@@ -64,6 +80,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/navigation" />
+        app:menu="@menu/navigation">
+
+
+    </android.support.design.widget.BottomNavigationView>
 
 </RelativeLayout>
