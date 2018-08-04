@@ -42,9 +42,6 @@ public class todo extends AppCompatActivity {
     public ListView todoListView;
     private DataSnapshot todoSnapshot;
 
-    public String task;
-
-    private FloatingActionButton addTodoButton;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -75,7 +72,7 @@ public class todo extends AppCompatActivity {
         setContentView(R.layout.activity_todo);
 
 
-        addTodoButton = findViewById(R.id.addTodoButton);
+        FloatingActionButton addTodoButton = findViewById(R.id.addTodoButton);
         todoListView = findViewById(R.id.todoList);
         todoList.clear();
 
@@ -98,6 +95,7 @@ public class todo extends AppCompatActivity {
                     if (!name.equals("2a1fd6da")) {
                         boolean state = true;
                         if (sn.child("state").getValue() != null) {
+                            //noinspection ConstantConditions
                             state = sn.child("state").getValue(Boolean.class);
                         }
                         TodoElement todoelement = new TodoElement(name, state);
@@ -118,7 +116,9 @@ public class todo extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 DataSnapshot sn = getSnapshot(todoList.get(i));
+                assert sn != null;
                 String deleteKey = sn.getKey();
+                assert deleteKey != null;
                 database.getReference("Todo").child(deleteKey).removeValue();
                 return false;
             }
@@ -130,6 +130,7 @@ public class todo extends AppCompatActivity {
                 //todoList.get(i).state = !todoList.get(i).state;
                 //sortTodoList();
                 DataSnapshot sn = getSnapshot(todoList.get(i));
+                assert sn != null;
                 sn.child("state").getRef().setValue(!todoList.get(i).state);
                 refreshList();
             }
@@ -161,7 +162,6 @@ public class todo extends AppCompatActivity {
             @Override
             public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                 // Get the current item from ListView
-                // FIXME: 03.08.2018 Null Pointer Exception
                 TextView view = (TextView) super.getView(position, convertView, parent);
                 TextView textView = view.findViewById(android.R.id.text1);
                 if (todoList.get(position).state) {
@@ -215,6 +215,7 @@ public class todo extends AppCompatActivity {
                         FirebaseDatabase database = Utils.getDatabase();
                         String name = String.valueOf(taskEditText.getText());
                         String todoID = database.getReference("Todo").push().getKey();
+                        assert todoID != null;
                         database.getReference("Todo").child(todoID).child("name").setValue(name);
                         database.getReference("Todo").child(todoID).child("state").setValue(true);
                     }
