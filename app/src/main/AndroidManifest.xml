@@ -5,7 +5,7 @@
 
     <application
         android:allowBackup="true"
-        android:debuggable="true"
+        android:debuggable="false"
         android:icon="@mipmap/wg_icon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/wg_icon_round"
@@ -23,5 +23,4 @@
             android:name="braess.constantin.wgterminal.todo"
             android:label="@string/title_activity_todo"/>
     </application>
-
 </manifest>

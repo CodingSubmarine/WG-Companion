@@ -206,8 +206,8 @@ public class todo extends AppCompatActivity {
     private void showAddItemDialog(Context c) {
         final EditText taskEditText = new EditText(c);
         AlertDialog dialog = new AlertDialog.Builder(c)
-                .setTitle("Add a new task")
-                .setMessage("What do you want to do next?")
+                .setTitle("Neue Aufgabe:")
+                .setMessage("Was soll erledigt werden?")
                 .setView(taskEditText)
                 .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override

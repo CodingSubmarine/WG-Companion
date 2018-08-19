@@ -1,4 +1,5 @@
 package braess.constantin.wgterminal;
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
@@ -656,9 +657,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (highestPrio == 1) {
-            pushNotifiaction("Du hast noch Aufgaben zu erledgen!");
+            pushNotifiaction("Du hast noch Aufgaben zu erledgen!", false);
         } else if (highestPrio == 2) {
-            pushNotifiaction("Sei mal kein Antim8 und hilf deiner WG!");
+            pushNotifiaction("Sei mal kein Antim8 und hilf deiner WG!", true);
         } else {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             assert notificationManager != null;
@@ -666,12 +667,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void pushNotifiaction(String text) {
+    public void pushNotifiaction(String text, boolean ongoing) {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle("WG-Erinnerung")
                 .setContentText(text)
-                .setOngoing(true);
+                .setOngoing(ongoing);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = getString(R.string.channel_name);
@@ -686,8 +687,15 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
             notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
             return;
+        } else {
+            //alarmManager. setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
+            NotificationManager notificationManager = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                notificationManager = getSystemService(NotificationManager.class);
+                assert notificationManager != null;
+                notificationManager.notify( NOTIFICATION_ID, mBuilder.build()); // <- ok ;-)
+            }
         }
-        mBuilder.build().notify();
     }
 
     void setValue(String text) {
