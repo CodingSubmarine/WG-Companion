@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "82997237867",
+    "firebase_url": "https://wgcompanion.firebaseio.com",
+    "project_id": "wgcompanion",
+    "storage_bucket": "wgcompanion.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:82997237867:android:b00a9b214cd6d97755792e",
+        "android_client_info": {
+          "package_name": "com.example.wg_companion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "82997237867-ch9ornpeth8kgt4ij9b6a94fa7i2j8gs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeZBE6KqDIU_SCF8nlLSKtHsl9BqiYzfQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "82997237867-ch9ornpeth8kgt4ij9b6a94fa7i2j8gs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

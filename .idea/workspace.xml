@@ -1,45 +1,166 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="main.dart" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/lib/main.dart">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+  <component name="ChangeListManager">
+    <list default="true" id="c300c329-2b23-402a-bfe9-d1c28b8110d5" name="Default Changelist" comment="flutter project init">
+      <change afterPath="$PROJECT_DIR$/android/app/google-services.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/repository/app_data_handler.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/repository/data/app_data.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/repository/data/chore_controller.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/repository/preferences.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/ui/chore_view/chore_column.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/ui/chore_view/chore_item.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/ui/chore_view/chore_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.packages" beforeDir="false" afterPath="$PROJECT_DIR$/.packages" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/GeneratedPluginRegistrant.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/GeneratedPluginRegistrant.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dart File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="CodingSubmarine &lt;40391164+codingsubmarine@users.noreply.github.com&gt;" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1gmqpvIXsRNNPAqvTI2NhgEDdL8" />
-  <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1" />
-    <panes>
-      <pane id="ProjectPane">
-        <option name="show-excluded-files" value="false" />
-      </pane>
-    </panes>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="dart.analysis.tool.window.force.activate" value="false" />
+    <property name="io.flutter.reload.alreadyRun" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
-  <component name="ToolWindowManager">
-    <editor active="true" />
-    <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-    </layout>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\const\WG-Companion\lib\repository" />
+      <recent name="C:\Users\const\WG-Companion\android\app" />
+      <recent name="C:\Users\const\WG-Companion\lib\ui\ui" />
+    </key>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c300c329-2b23-402a-bfe9-d1c28b8110d5" name="Default Changelist" comment="" />
+      <created>1598730370188</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1598730370188</updated>
+    </task>
+    <task id="LOCAL-00001" summary="flutter project init">
+      <created>1598730539936</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1598730539936</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="flutter project init" />
+    <option name="LAST_COMMIT_MESSAGE" value="flutter project init" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="92" y="92" width="3256" height="1216" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1598730424149">
+    <state x="1461" y="616" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1598733811596">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
-    <state x="92" y="92" width="3256" height="1216" key="com.android.tools.idea.avdmanager.AvdListDialog/0.0.3440.1400/3440.0.1920.1040@0.0.3440.1400" timestamp="1598730424149" />
+    <state x="1461" y="616" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.3440.1400/3440.0.1920.1040@0.0.3440.1400" timestamp="1598733811596" />
+    <state x="4249" y="332" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1598745440828">
+      <screen x="3440" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1450" y="447" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.3440.1400/3440.0.1920.1040@0.0.3440.1400" timestamp="1598740683910" />
+    <state x="4249" y="332" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.3440.1400/3440.0.1920.1040@3440.0.1920.1040" timestamp="1598745440828" />
+    <state x="1344" y="208" width="1485" height="1140" key="CommitChangelistDialog2" timestamp="1598804565847">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="1344" y="208" width="1485" height="1140" key="CommitChangelistDialog2/0.0.3440.1400/3440.0.1920.1040@0.0.3440.1400" timestamp="1598804565847" />
+    <state width="3397" height="421" key="GridCell.Tab.0.bottom" timestamp="1598891352865">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state width="3397" height="421" key="GridCell.Tab.0.bottom/0.0.3440.1400/3440.0.1920.1040@0.0.3440.1400" timestamp="1598891352865" />
+    <state width="1877" height="344" key="GridCell.Tab.0.bottom/0.0.3440.1400/3440.0.1920.1040@3440.0.1920.1040" timestamp="1598823777596" />
+    <state width="3397" height="421" key="GridCell.Tab.0.center" timestamp="1598891352865">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state width="3397" height="421" key="GridCell.Tab.0.center/0.0.3440.1400/3440.0.1920.1040@0.0.3440.1400" timestamp="1598891352865" />
+    <state width="1877" height="344" key="GridCell.Tab.0.center/0.0.3440.1400/3440.0.1920.1040@3440.0.1920.1040" timestamp="1598823777595" />
+    <state width="3397" height="421" key="GridCell.Tab.0.left" timestamp="1598891352864">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state width="3397" height="421" key="GridCell.Tab.0.left/0.0.3440.1400/3440.0.1920.1040@0.0.3440.1400" timestamp="1598891352864" />
+    <state width="1877" height="344" key="GridCell.Tab.0.left/0.0.3440.1400/3440.0.1920.1040@3440.0.1920.1040" timestamp="1598823777595" />
+    <state width="3397" height="421" key="GridCell.Tab.0.right" timestamp="1598891352865">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state width="3397" height="421" key="GridCell.Tab.0.right/0.0.3440.1400/3440.0.1920.1040@0.0.3440.1400" timestamp="1598891352865" />
+    <state width="1877" height="344" key="GridCell.Tab.0.right/0.0.3440.1400/3440.0.1920.1040@3440.0.1920.1040" timestamp="1598823777596" />
+    <state x="1494" y="241" width="1243" height="1004" key="SettingsEditor" timestamp="1598793217645">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="1494" y="241" width="1243" height="1004" key="SettingsEditor/0.0.3440.1400/3440.0.1920.1040@0.0.3440.1400" timestamp="1598793217645" />
+    <state x="92" y="92" width="3256" height="1216" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1598891129650">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="92" y="92" width="3256" height="1216" key="com.android.tools.idea.avdmanager.AvdListDialog/0.0.3440.1400/3440.0.1920.1040@0.0.3440.1400" timestamp="1598891129650" />
+    <state x="1396" y="524" key="com.intellij.ide.util.TipDialog" timestamp="1598792392099">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="1396" y="524" key="com.intellij.ide.util.TipDialog/0.0.3440.1400/3440.0.1920.1040@0.0.3440.1400" timestamp="1598792392099" />
+    <state x="1157" y="127" width="1124" height="1147" key="find.popup" timestamp="1598806151109">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="1157" y="127" width="1124" height="1147" key="find.popup/0.0.3440.1400/3440.0.1920.1040@0.0.3440.1400" timestamp="1598806151109" />
+    <state x="4086" y="94" width="627" height="852" key="find.popup/0.0.3440.1400/3440.0.1920.1040@3440.0.1920.1040" timestamp="1598745497115" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <default-breakpoints>
+        <breakpoint suspend="THREAD" type="dart-exception" />
+      </default-breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="FlutterRunConfigurationType">
+        <watch expression="AppDataHandler().appData" language="Dart" />
+        <watch expression="event.snapshot.value['chores']" language="Dart" />
+        <watch expression="event.snapshot.value['roommates']" language="Dart" />
+        <watch expression="newChoreList != widget.choreList" language="Dart" />
+        <watch expression="widget.roommate !=           widget.appData.appData.roommateMap[widget.roommate.uid]" language="Dart" />
+        <watch expression="choreMap[choreUid].priority" language="Dart" />
+        <watch expression="choreMap[choreUid]" language="Dart" />
+        <watch expression="sortedRoommateIds.indexOf(&quot;3030023e-3eea-4033-b9e2-35c50dadacee&quot;)" language="Dart" />
+        <watch expression="sortedRoommateIds[next_idx]" language="Dart" />
+        <watch expression="chores.reversed.toList()" language="Dart" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
